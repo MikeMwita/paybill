@@ -7,8 +7,19 @@ PayBill is a comprehensive solution crafted to streamline the intricacies of bil
 This project is built with the following technologies:
 
 - Golang
-- MySQL
+- PostgreSQL
 - Redis
+
+## Features
+
+- **User authentication and authorization**: This feature allows users to register, login, logout, and refresh their access tokens. It also allows users to reset their passwords, verify their emails, and update their profiles. This feature uses JWT or OAuth 2.0 to secure your endpoints and manage different user roles and permissions.
+- **Bill management**: This feature allows users to create, update, delete, and pay their bills. It also allows users to upload bills in bulk, scan bills using OCR, and automate bill payments. This feature supports both inter-currency and international payments, seamlessly synchronizing all transactions .
+- **Notification system**: This feature allows users to send and receive email or SMS alerts when their bills are due, paid, or overdue. It also allows users to delete their notifications. 
+- **Integration system**: This feature allows users to connect and disconnect with other accounting software or platforms like QuickBooks, FreshBooks, or Stripe. It also allows users to get all their integrations and a single integration. This feature enables users to support more payment methods and currencies, as well as sync their data with other systems.
+- **Reporting and analytics system**: This feature allows users to generate, view, and delete reports on their spending habits, payment history, and cash flow. It also allows users to get a single report. This feature uses libraries like Gonum or Plotly to generate insights and visualizations.
+- **Feedback and rating system**: This feature allows users to rate and review the merchants they pay. It also allows users to get and delete their feedback. This feature helps users to improve their service quality and customer satisfaction.
+- **Goal savings and savings account**: This feature allows users to create, update, delete, and transfer money to or from their savings goals. It also allows users to withdraw money from their savings goals. This feature helps users to save money for a specific purpose, such as an emergency fund, a vacation, or a down payment.
+
 
 ## Installation
 
@@ -70,14 +81,22 @@ To install and run this project, you need to have Golang, MySQL, and Redis insta
 | /api/feedback/:id | DELETE | Delete a feedback |
 
 
-## Contributing
 
-This project is open for contributions. If you want to contribute, please follow these steps:
 
-1. Fork this repository and create a new branch: `git checkout -b feature-name`
-2. Make your changes and commit them: `git commit -m "Add some feature"`
-3. Push your branch to your forked repository: `git push origin feature-name`
-4. Create a pull request and wait for review.
+
+| Endpoint | Method | Description |
+| --- | --- | --- |
+| /api/goals | POST | Create a new savings goal |
+| /api/goals | GET | Get all savings goals |
+| /api/goals/:id | GET | Get a single savings goal |
+| /api/goals/:id | PUT | Update a savings goal |
+| /api/goals/:id | DELETE | Delete a savings goal |
+| /api/goals/:id/transfer | POST | Transfer money to or from a savings goal |
+| /api/goals/:id/withdraw | POST | Withdraw money from a savings goal |
+
+
+
+
 
 ## License
 
