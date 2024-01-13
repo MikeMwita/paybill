@@ -31,72 +31,96 @@ To install and run this project, you need to have Golang, MySQL, and Redis insta
 4. Create a `.env` file and add your environment variables (such as database credentials, API keys, etc.)
 5. Run the project: `go run main.go`
 
-## Endpoints
 
+# Documentation for API Endpoints
 
+## Authentication
 
-| Endpoint | Method | Description |
-| --- | --- | --- |
-| /api/auth/register | POST | Register a new user |
-| /api/auth/login | POST | Login an existing user |
-| /api/auth/logout | POST | Logout the current user |
-| /api/auth/refresh | POST | Refresh the access token |
+This section covers the endpoints related to user authentication and profile management.
 
+| Class | Method | HTTP request | Description |
+| --- | --- | --- | --- |
+| AuthApi | Register | POST /api/auth/register | Register a new user |
+| AuthApi | Login | POST /api/auth/login | Login an existing user |
+| AuthApi | Logout | POST /api/auth/logout | Logout the current user |
+| AuthApi | Refresh | POST /api/auth/refresh | Refresh the access token |
+| AuthApi | Reset | POST /api/auth/reset | Request a password reset link |
+| AuthApi | ResetPassword | PUT /api/auth/reset/:token | Reset the password using the token |
+| AuthApi | Verify | POST /api/auth/verify | Request an email verification link |
+| AuthApi | VerifyEmail | GET /api/auth/verify/:token | Verify the email using the token |
+| AuthApi | GetProfile | GET /api/auth/profile | Get the user profile |
+| AuthApi | UpdateProfile | PUT /api/auth/profile | Update the user profile |
 
+## Bills
 
-| Endpoint | Method | Description |
-| --- | --- | --- |
-| /api/auth/reset | POST | Request a password reset link |
-| /api/auth/reset/:token | PUT | Reset the password using the token |
-| /api/auth/verify | POST | Request an email verification link |
-| /api/auth/verify/:token | GET | Verify the email using the token |
-| /api/auth/profile | GET | Get the user profile |
-| /api/auth/profile | PUT | Update the user profile |
+This section covers the endpoints related to bill creation, management, and payment.
 
+| Class | Method | HTTP request | Description |
+| --- | --- | --- | --- |
+| BillApi | CreateBill | POST /api/bills | Create a bill |
+| BillApi | GetBills | GET /api/bills | Get all bills |
+| BillApi | GetBill | GET /api/bills/:id | Get a single bill |
+| BillApi | UpdateBill | PUT /api/bills/:id | Update a bill |
+| BillApi | DeleteBill | DELETE /api/bills/:id | Delete a bill |
+| BillApi | PayBill | POST /api/bills/:id/pay | Pay a bill |
 
+## Notifications
 
-| Endpoint | Method | Description |
-| --- | --- | --- |
-| /api/bills | POST | Create a bill |
-| /api/bills | GET | Get all bills |
-| /api/bills/:id | GET | Get a single bill |
-| /api/bills/:id | PUT | Update a bill |
-| /api/bills/:id | DELETE | Delete a bill |
-| /api/bills/:id/pay | POST | Pay a bill |
-| /api/notifications | POST | Send a notification |
-| /api/notifications | GET | Get all notifications |
-| /api/notifications/:id | GET | Get a single notification |
-| /api/notifications/:id | DELETE | Delete a notification |
-| /api/integrations | POST | Connect with an accounting platform |
-| /api/integrations | GET | Get all integrations |
-| /api/integrations/:id | GET | Get a single integration |
-| /api/integrations/:id | DELETE | Disconnect from an accounting platform |
-| /api/reports | POST | Generate a report |
-| /api/reports | GET | Get all reports |
-| /api/reports/:id | GET | Get a single report |
-| /api/reports/:id | DELETE | Delete a report |
-| /api/feedback | POST | Rate a merchant |
-| /api/feedback | GET | Get all feedback |
-| /api/feedback/:id | GET | Get a single feedback |
-| /api/feedback/:id | DELETE | Delete a feedback |
+This section covers the endpoints related to notification sending and management.
 
+| Class | Method | HTTP request | Description |
+| --- | --- | --- | --- |
+| NotificationApi | SendNotification | POST /api/notifications | Send a notification |
+| NotificationApi | GetNotifications | GET /api/notifications | Get all notifications |
+| NotificationApi | GetNotification | GET /api/notifications/:id | Get a single notification |
+| NotificationApi | DeleteNotification | DELETE /api/notifications/:id | Delete a notification |
 
+## Integrations
 
+This section covers the endpoints related to integration with accounting platforms.
 
+| Class | Method | HTTP request | Description |
+| --- | --- | --- | --- |
+| IntegrationApi | Connect | POST /api/integrations | Connect with an accounting platform |
+| IntegrationApi | GetIntegrations | GET /api/integrations | Get all integrations |
+| IntegrationApi | GetIntegration | GET /api/integrations/:id | Get a single integration |
+| IntegrationApi | Disconnect | DELETE /api/integrations/:id | Disconnect from an accounting platform |
 
-| Endpoint | Method | Description |
-| --- | --- | --- |
-| /api/goals | POST | Create a new savings goal |
-| /api/goals | GET | Get all savings goals |
-| /api/goals/:id | GET | Get a single savings goal |
-| /api/goals/:id | PUT | Update a savings goal |
-| /api/goals/:id | DELETE | Delete a savings goal |
-| /api/goals/:id/transfer | POST | Transfer money to or from a savings goal |
-| /api/goals/:id/withdraw | POST | Withdraw money from a savings goal |
+## Reports
 
+This section covers the endpoints related to report generation and management.
 
+| Class | Method | HTTP request | Description |
+| --- | --- | --- | --- |
+| ReportApi | GenerateReport | POST /api/reports | Generate a report |
+| ReportApi | GetReports | GET /api/reports | Get all reports |
+| ReportApi | GetReport | GET /api/reports/:id | Get a single report |
+| ReportApi | DeleteReport | DELETE /api/reports/:id | Delete a report |
 
+## Feedback
 
+This section covers the endpoints related to feedback rating and management.
+
+| Class | Method | HTTP request | Description |
+| --- | --- | --- | --- |
+| FeedbackApi | Rate | POST /api/feedback | Rate a merchant |
+| FeedbackApi | GetFeedback | GET /api/feedback | Get all feedback |
+| FeedbackApi | GetFeedback | GET /api/feedback/:id | Get a single feedback |
+| FeedbackApi | DeleteFeedback | DELETE /api/feedback/:id | Delete a feedback |
+
+## Goals
+
+This section covers the endpoints related to savings goals creation, management, and transfer.
+
+| Class | Method | HTTP request | Description |
+| --- | --- | --- | --- |
+| GoalApi | CreateGoal | POST /api/goals | Create a new savings goal |
+| GoalApi | GetGoals | GET /api/goals | Get all savings goals |
+| GoalApi | GetGoal | GET /api/goals/:id | Get a single savings goal |
+| GoalApi | UpdateGoal | PUT /api/goals/:id | Update a savings goal |
+| GoalApi | DeleteGoal | DELETE /api/goals/:id | Delete a savings goal |
+| GoalApi | Transfer | POST /api/goals/:id/transfer | Transfer money to or from a savings goal |
+| GoalApi | Withdraw | POST /api/goals/:id/withdraw | Withdraw money from a savings goal |
 
 ## License
 
