@@ -209,7 +209,7 @@ components:
         - email
 
 ----------------------------------------------------
-#BILL ENDPOINT
+
 
 paths:
   /api/bills:
@@ -343,7 +343,7 @@ components:
           type: string
 
 ----------------------------------------------------
-#NOTIFICATION ENDPOINT 
+ 
 
 
 paths:
@@ -427,7 +427,7 @@ components:
         - date
 
 ----------------------------------------------------
-#INTERGRATION ENDPOINT
+
 
 
 paths:
@@ -511,7 +511,7 @@ components:
         - apiKey
 
 ----------------------------------------------------
-#REPORT ENDPOINT
+
 
 paths:
   /api/reports:
@@ -597,7 +597,7 @@ components:
         - endDate
 
 ----------------------------------------------------
-#FEEDBACK ENDPOINT
+
 
 
 paths:
@@ -681,7 +681,7 @@ components:
         - rating
 
 ----------------------------------------------------
-#GOAL SETTING ENDPOINT
+
 
 paths:
   /api/goals:
