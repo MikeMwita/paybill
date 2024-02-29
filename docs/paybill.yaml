@@ -1,9 +1,748 @@
-openapi: 3.0.3
+openapi: 3.0.2
 info:
-  title: $Title$
-  description: $Title$
+  title: PayBill API
+  description: PayBill's Authentication API for seamless integration
   version: 1.0.0
-servers:
-  - url: '$https$'
+
 paths:
-  $END$
+  /api/auth/register:
+    post:
+      summary: Register a new user
+      description: Endpoint to register a new user in the PayBill system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+      responses:
+        '201':
+          description: User successfully registered
+        '400':
+          description: Invalid request payload
+        '409':
+          description: User with the provided email already exists
+
+  /api/auth/login:
+    post:
+      summary: User login
+      description: Endpoint for user authentication and login.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: User successfully logged in
+        '401':
+          description: Invalid credentials
+        '404':
+          description: User not found
+
+  /api/auth/logout:
+    post:
+      summary: User logout
+      description: Endpoint to log out the currently authenticated user.
+      responses:
+        '200':
+          description: User successfully logged out
+        '401':
+          description: Unauthorized
+
+  /api/auth/refresh:
+    post:
+      summary: Refresh authentication token
+      description: Endpoint to refresh the authentication token.
+      responses:
+        '200':
+          description: Token successfully refreshed
+        '401':
+          description: Unauthorized
+
+  /api/auth/reset:
+    post:
+      summary: Initiate password reset
+      description: Endpoint to initiate the password reset process.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+      responses:
+        '200':
+          description: Password reset initiated
+        '404':
+          description: User not found
+
+  /api/auth/reset/{token}:
+    put:
+      summary: Reset password
+      description: Endpoint to reset the user password using the provided token.
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: The token received for password reset
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+      responses:
+        '200':
+          description: Password successfully reset
+        '401':
+          description: Unauthorized
+
+  /api/auth/verify:
+    post:
+      summary: Verify user
+      description: Endpoint to verify the user's identity.
+      responses:
+        '200':
+          description: User successfully verified
+        '401':
+          description: Unauthorized
+
+  /api/auth/verify/{token}:
+    get:
+      summary: Verify email
+      description: Endpoint to verify the user's email using the provided token.
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: The token received for email verification
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email successfully verified
+        '401':
+          description: Unauthorized
+
+  /api/auth/profile:
+    get:
+      summary: Get user profile
+      description: Endpoint to retrieve the user's profile information.
+      responses:
+        '200':
+          description: User profile retrieved successfully
+        '401':
+          description: Unauthorized
+
+    put:
+      summary: Update user profile
+      description: Endpoint to update the user's profile information.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileUpdate'
+      responses:
+        '200':
+          description: User profile updated successfully
+        '401':
+          description: Unauthorized
+
+  /api/bills:
+    post:
+      summary: Create a new bill
+      description: Endpoint to create a new bill in the PayBill system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillCreation'
+      responses:
+        '201':
+          description: Bill successfully created
+        '400':
+          description: Invalid request payload
+
+    get:
+      summary: Get all bills
+      description: Endpoint to retrieve all bills in the PayBill system.
+      responses:
+        '200':
+          description: Bills retrieved successfully
+        '401':
+          description: Unauthorized
+
+  /api/bills/{id}:
+    get:
+      summary: Get a specific bill
+      description: Endpoint to retrieve a specific bill by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the bill to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bill retrieved successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Bill not found
+
+    put:
+      summary: Update a specific bill
+      description: Endpoint to update a specific bill by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the bill to update
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillUpdate'
+      responses:
+        '200':
+          description: Bill updated successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Bill not found
+
+    delete:
+      summary: Delete a specific bill
+      description: Endpoint to delete a specific bill by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the bill to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Bill deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Bill not found
+
+  /api/bills/{id}/pay:
+    post:
+      summary: Pay a specific bill
+      description: Endpoint to mark a specific bill as paid.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the bill to pay
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bill marked as paid successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Bill not found
+
+  /api/notifications:
+    post:
+      summary: Send a new notification
+      description: Endpoint to send a new notification in the PayBill system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationSend'
+      responses:
+        '201':
+          description: Notification successfully sent
+        '400':
+          description: Invalid request payload
+
+    get:
+      summary: Get all notifications
+      description: Endpoint to retrieve all notifications in the PayBill system.
+      responses:
+        '200':
+          description: Notifications retrieved successfully
+        '401':
+          description: Unauthorized
+
+  /api/notifications/{id}:
+    get:
+      summary: Get a specific notification
+      description: Endpoint to retrieve a specific notification by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the notification to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notification retrieved successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Notification not found
+
+    delete:
+      summary: Delete a specific notification
+      description: Endpoint to delete a specific notification by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the notification to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Notification deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Notification not found
+
+  /api/integrations:
+    post:
+      summary: Connect with an accounting platform
+      description: Endpoint to establish a connection with an accounting platform in the PayBill system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntegrationConnect'
+      responses:
+        '201':
+          description: Integration successfully connected
+        '400':
+          description: Invalid request payload
+
+    get:
+      summary: Get all integrations
+      description: Endpoint to retrieve all integrations in the PayBill system.
+      responses:
+        '200':
+          description: Integrations retrieved successfully
+        '401':
+          description: Unauthorized
+
+  /api/integrations/{id}:
+    get:
+      summary: Get a specific integration
+      description: Endpoint to retrieve a specific integration by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the integration to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Integration retrieved successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Integration not found
+
+    delete:
+      summary: Disconnect from an accounting platform
+      description: Endpoint to disconnect from a specific integration by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the integration to disconnect
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Integration disconnected successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Integration not found
+
+  /api/reports:
+    post:
+      summary: Generate a new report
+      description: Endpoint to generate a new report in the PayBill system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportGeneration'
+      responses:
+        '201':
+          description: Report successfully generated
+        '400':
+          description: Invalid request payload
+
+    get:
+      summary: Get all reports
+      description: Endpoint to retrieve all reports in the PayBill system.
+      responses:
+        '200':
+          description: Reports retrieved successfully
+        '401':
+          description: Unauthorized
+
+  /api/reports/{id}:
+    get:
+      summary: Get a specific report
+      description: Endpoint to retrieve a specific report by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the report to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report retrieved successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Report not found
+
+    delete:
+      summary: Delete a specific report
+      description: Endpoint to delete a specific report by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the report to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Report deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Report not found
+
+  /api/feedback:
+    post:
+      summary: Rate a merchant
+      description: Endpoint to submit feedback and rate a merchant in the PayBill system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRating'
+      responses:
+        '201':
+          description: Feedback submitted successfully
+        '400':
+          description: Invalid request payload
+
+    get:
+      summary: Get all feedback
+      description: Endpoint to retrieve all feedback in the PayBill system.
+      responses:
+        '200':
+          description: Feedback retrieved successfully
+        '401':
+          description: Unauthorized
+
+  /api/feedback/{id}:
+    get:
+      summary: Get a single feedback
+      description: Endpoint to retrieve a specific feedback by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the feedback to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Feedback retrieved successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Feedback not found
+
+    delete:
+      summary: Delete a feedback
+      description: Endpoint to delete a specific feedback by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the feedback to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Feedback deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Feedback not found
+
+  /api/goals:
+    post:
+      summary: Create a new goal
+      description: Endpoint to create a new financial goal in the PayBill system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoalCreation'
+      responses:
+        '201':
+          description: Goal successfully created
+        '400':
+          description: Invalid request payload
+
+    get:
+      summary: Get all goals
+      description: Endpoint to retrieve all financial goals in the PayBill system.
+      responses:
+        '200':
+          description: Goals retrieved successfully
+        '401':
+          description: Unauthorized
+
+  /api/goals/{id}:
+    get:
+      summary: Get a specific goal
+      description: Endpoint to retrieve a specific financial goal by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the goal to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Goal retrieved successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Goal not found
+
+    put:
+      summary: Update a specific goal
+      description: Endpoint to update a specific financial goal by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the goal to update
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoalUpdate'
+      responses:
+        '200':
+          description: Goal updated successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Goal not found
+
+    delete:
+      summary: Delete a specific goal
+      description: Endpoint to delete a specific financial goal by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the goal to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Goal deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Goal not found
+components:
+  schemas:
+    UserRegistration:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+      required:
+        - username
+        - email
+        - password
+
+    UserLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+      required:
+        - email
+        - password
+
+    PasswordResetRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+        - email
+
+    PasswordReset:
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+      required:
+        - password
+
+    UserProfileUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+      required:
+        - username
+        - email
+
+    BillCreation:
+      type: object
+      properties:
+        amount:
+          type: number
+        dueDate:
+          type: string
+          format: date
+        description:
+          type: string
+      required:
+        - amount
+        - dueDate
+
+    BillUpdate:
+      type: object
+      properties:
+        amount:
+          type: number
+        dueDate:
+          type: string
+          format: date
+        description:
+          type: string
+
+    NotificationSend:
+      type: object
+      properties:
+        recipient:
+          type: string
+          format: email
+        message:
+          type: string
+        date:
+          type: string
+          format: date-time
+      required:
+        - recipient
+        - message
+        - date
+
+    IntegrationConnect:
+      type: object
+      properties:
+        platform:
+          type: string
+        apiKey:
+          type: string
+        credentials:
+          type: object
+      required:
+        - platform
+        - apiKey
+
+    ReportGeneration:
+      type: object
+      properties:
+        type:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+      required:
+        - type
+        - startDate
+        - endDate
+
+    FeedbackRating:
+      type: object
+      properties:
+        merchantId:
+          type: string
+          description: The ID of the merchant being rated
+        rating:
+          type: number
+          description: The numerical rating given by the user (e.g., 1-5)
+        comment:
+          type: string
+          description: Additional comments or feedback from the user
+      required:
+        - merchantId
+        - rating
+
+    GoalCreation:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name or description of the financial goal
+        amount:
+          type: number
+          description: The target amount for the financial goal
+      required:
+        - name
+        - amount
+
+    GoalUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The updated name or description of the financial goal
+        amount:
+          type: number
+          description: The updated target amount for the financial goal
