@@ -3,10 +3,10 @@ version: '3'
 tasks:
   gin-types:
     cmds:
-      - oapi-codegen --package=dto  --generate types ../../docs/paybill.yaml> internal/dto/http.gen.go
+      - oapi-codegen --package=dto --generate types ./docs/paybill.yaml > internal/dto/http.gen.go
     silent: false
 
   gin-handlers:
     cmds:
-      - oapi-codegen --package=handlers --generate gin ../../docs/paybill.yaml> internal/routes/handlers/handler.gen.go
+      - oapi-codegen --package=handlers --generate gin ./docs/paybill.yaml > internal/routes/handlers/handler.gen.go
     silent: false
