@@ -4,6 +4,7 @@ tasks:
   gin-types:
     cmds:
       - oapi-codegen --package=dto --generate types ./docs/paybill.yaml > internal/dto/http.gen.go
+
     silent: false
 
   gin-handlers:

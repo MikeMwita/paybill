@@ -27,8 +27,6 @@ type PostgresConfig struct {
 	PostgresqlSslmode  string
 }
 
-// LoadConfig Load config file from given path
-
 func LoadConfig(filename string) (*viper.Viper, error) {
 	v := viper.New()
 
