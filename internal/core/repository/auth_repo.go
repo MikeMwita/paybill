@@ -36,8 +36,34 @@ func (a authRepo) RequestPasswordReset(ctx context.Context, email string) error 
 }
 
 func (a authRepo) ResetPassword(ctx context.Context, token string, newPassword string) error {
-	//TODO implement me
-	panic("implement me")
+	// Verify the reset token is valid and find the associated user
+	user, err := a.verifyResetToken(ctx, token)
+	if err != nil {
+		return err
+	}
+
+	// Validate the new password (e.g., check length, complexity)
+	if err := validateNewPassword(newPassword); err != nil {
+		return err
+	}
+
+	// Hash the new password before storing it
+	hashedPassword, err := hashPassword(newPassword)
+	if err != nil {
+		return err
+	}
+
+	// Update the user's password in the database
+	if err := a.updateUserPassword(ctx, user.ID, hashedPassword); err != nil {
+		return err
+	}
+
+	// Invalidate the reset token so it can't be used again
+	if err := a.invalidateResetToken(ctx, token); err != nil {
+		return err
+	}
+	return nil
+
 }
 
 func (a authRepo) RequestEmailVerification(ctx context.Context, email string) error {
