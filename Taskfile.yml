@@ -11,3 +11,9 @@ tasks:
     cmds:
       - oapi-codegen --package=handlers --generate gin ./docs/paybill.yaml > internal/routes/handlers/handler.gen.go
     silent: false
+
+  gin-interfaces:
+    cmds:
+      - oapi-codegen --package=handlers --generate types,client ./docs/paybill.yaml > internal/routes/handlers/gen.go
+
+    silent: false
