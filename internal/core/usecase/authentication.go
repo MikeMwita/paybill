@@ -16,7 +16,7 @@ type AuthUseCase struct {
 	authService adapters.AuthAdapter
 }
 
-func (a AuthUseCase) Register(ctx context.Context, username string, email string, password string) error {
+func (a AuthUseCase) Register(ctx context.Context, profile *models.UserProfile) error {
 	//TODO implement me
 	panic("implement me")
 }

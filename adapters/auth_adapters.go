@@ -6,7 +6,7 @@ import (
 )
 
 type AuthAdapter interface {
-	Register(ctx context.Context, username string, email string, password string) error
+	Register(ctx context.Context, profile *models.UserProfile) error
 	Login(ctx context.Context, username string, password string) (string, error)
 	Logout(ctx context.Context) error
 	Refresh(ctx context.Context, refreshToken string) (string, error)

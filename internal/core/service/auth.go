@@ -13,7 +13,6 @@ func (a *AuthService) RegisterUser(username, email, password string) error {
 	if err != nil {
 		return err
 	}
-	// Handle successful registration
 	return nil
 }
 
@@ -22,7 +21,6 @@ func (a *AuthService) AuthenticateUser(username, password string) (bool, error) 
 	if err != nil {
 		return false, err
 	}
-	// Handle successful authentication
 	return authenticated, nil
 }
 
